@@ -1,0 +1,70 @@
+
+Script for inserting data to storedpr_db
+
+inserting data to all tables
+
+insert into street 
+	values("Andriya Sakharova"),
+		  ("Knyahyni Ol'hy"),
+		  ("Mel'nyka"),
+		  ("Heroiv UPA"),
+		  ("Horodotska");
+
+insert into pharmacy (name, building_number, work_time, saturday, sunday, street) 
+	values("DS", 76, '9:00', true, false, "Andriya Sakharova"),
+		  ("A pharmacy", 13, '8:00', true, false, "Knyahyni Ol'hy"),
+		  ("B pharmacy", 98, '11:00', true, true, "Horodotska"),
+		  ("C pharmacy", 54, '9:00', false, false, "Mel'nyka"),
+		  ("D pharmacy", 34, '10:00', false, false, "Heroiv UPA");
+	
+insert into post
+	values("Consultant"),
+		  ("Pharmacist"),
+		  ("Assistant");
+
+insert into employee(surname, name, identity_number, experience, post, pharmacy_id)
+	values("Dub", "Oleh", 1235422432, 5, "Consultant", 1),
+		  ("Kabal", "Sergiy", 1235422565, 3, "Pharmacist", 2),
+		  ("Berkut", "Olga", 4683820543, 5, "Assistant", 1),
+		  ("Drezden", "Olena", 4324535443, 3, "Assistant", 2),
+		  ("Dub", "Stas", 1435644324, 2, "Consultant", 5),
+		  ("Borow", "Kurt", 1435644324, 2, "Consultant", 1),
+		  ("Verkla", "Ira", 1435644324, 2, "Pharmacist", 2);
+
+
+insert into zone(name)
+	values("heart"),
+		  ("kidneys"),
+		  ("lungs"),
+		  ("stomach");
+
+insert into medicine(name, recipe, narcotic, psychotropic,)
+	values("Loratadine", true, false, false),
+		  ("Acetaminophen", false, false, false),
+		  ("Alprazolam", true, false, true),
+		  ("Pantoprazole", true, true, true),
+		  ("Losartan", false, false, false),
+		  ("Cyclobenzaprine", false, false, false),
+		  ("Amoxicillin", true, false, false),
+		  ("Atorvastatin", true, false, false),
+		  ("Ciprofloxacin", true, false, false);
+
+insert into medicine_zone(medicine_id, zone_id)
+	values(1, 2),
+		  (2, 1),
+		  (1, 3),
+		  (2, 4),
+		  (7, 1),
+		  (9, 2),
+		  (1, 4);
+
+insert into pharmacy_medicine(pharmacy_id, medicine_id)
+	values(1, 1),
+		  (2, 7),
+		  (4, 9),
+		  (1, 5),
+		  (3, 4),
+		  (2, 2),
+		  (4, 3),
+		  (5, 2),
+		  (3, 6);

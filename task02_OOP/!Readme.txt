@@ -1,0 +1,1 @@
+Simple Airport Class with Planes and Flights.Implementation of lambda sort.Input through console scanner.

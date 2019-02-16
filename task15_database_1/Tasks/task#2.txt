@@ -1,0 +1,67 @@
+
+#1
+select *
+from pc
+where model like '%1%1%';
+
+
+#2
+select *
+from outcome
+where month(date) = 3;
+
+#3
+select *
+from outcome_o
+where day(date) = 14;
+
+#4
+select *
+from ships
+where name like'W%n';
+
+#5
+select name
+from ships
+where name like '%e%e%';
+
+#6
+select name, launched
+from ships
+where name NOT like '%a';
+
+#7
+select name
+from battles
+where name rlike '(.*)\\s(.*[^c]$)';
+
+#8
+select *
+from trip
+where  hour(time_out) between 12 and 17;
+
+#9
+select *
+from Trip
+where hour(time_in) between 17 and 23;
+
+#10
+select date
+from Pass_in_trip
+where place like '1_';
+
+#11
+select date
+from Pass_in_trip
+where place like '_c';
+
+#12
+select substring_index(name, ' ', -1) as name
+from passenger
+where name rlike '.*\\s[C].*';
+
+#13
+select substring_index(name, ' ', -1) as name
+from passenger
+where name rlike '.*\\s[^J].*'
+

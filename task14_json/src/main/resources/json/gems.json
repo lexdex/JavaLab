@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Rubin",
+    "preciousness": "Precious",
+    "origin": "Camboja",
+    "value": 42,
+    "parameters": {
+      "color": "red",
+      "transparency": 10,
+      "faces": 43
+    }
+  },
+  {
+    "name": "Sapphire",
+    "preciousness": "Precious",
+    "origin": "United Kingdom",
+    "value": 43,
+    "parameters": {
+      "color": "blue",
+      "transparency": 89,
+      "faces": 64
+    }
+  },
+  {
+    "name": "Aquamarine",
+    "preciousness": "Semi_Precious",
+    "origin": "France",
+    "value": 12,
+    "parameters": {
+      "color": "light blue",
+      "transparency": 77,
+      "faces": 40
+    }
+  },
+  {
+    "name": "Diamond",
+    "preciousness": "Precious",
+    "origin": "Africa",
+    "value": 67,
+    "parameters": {
+      "color": "white",
+      "transparency": 75,
+      "faces": 200
+    }
+  },
+  {
+    "name": "Amethyst",
+    "preciousness": "Semi_Precious",
+    "origin": "Finland",
+    "value": 35,
+    "parameters": {
+      "color": "violet",
+      "transparency": 20,
+      "faces": 45
+    }
+  },
+  {
+    "name": "Diamond",
+    "preciousness": "Precious",
+    "origin": "Africa",
+    "value": 70,
+    "parameters": {
+      "color": "red",
+      "transparency": 69,
+      "faces": 80
+    }
+  }
+]

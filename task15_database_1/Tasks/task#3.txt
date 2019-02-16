@@ -1,0 +1,94 @@
+
+
+#1
+select p.maker, type, speed, hd
+from pc 
+join product p 
+on pc.model = p.model
+where hd <=8;
+
+#2
+select p.maker
+from product p
+join pc 
+on p.model = pc.model 
+where pc.speed >= 600;
+
+#3
+select maker
+from product p
+join pc
+on p.model = pc.model
+where pc.speed <=500;
+
+#4
+select distinct l1.model, l2.model, l1.ram, l2.ram, l1.hd, l2.hd
+from laptop l1, laptop l2
+where l1.ram = l2.ram and l1.hd = l2.hd
+order by l1.model desc, l1.ram desc;
+
+#5
+select c1.country, c1.class
+from classes c1, classes c2
+where (c1.type in('bb', 'bc') and c2.type in('bb', 'bc')) and c1.type != c2.type and c1.country = c2.country;
+
+#6
+select p.model, p.maker
+from product p
+join pc
+on pc.model = p.model and pc.price < 600;
+
+#7
+select p.model, p.maker
+from product p
+join printer pr
+on p.model = pr.model and pr.price > 300;
+
+#8
+select p.maker, pc.model, pc.price
+from pc
+join product p
+on p.model = pc.model;
+
+#9
+select distinct p.maker, pc.model, pc.price
+from pc
+join product p
+on p.model = pc.model;
+
+#10
+select p.maker, p.type, p.model, pc.speed
+from product p
+join pc 
+on pc.model = p.model and speed > 600;
+
+#11
+select s.name, c.displacement
+from ships s
+join classes c
+on c.class = s.class
+order by displacement desc;
+
+#12
+select name, date
+from battles b
+join outcomes o
+on b.name = o.battle and result in ('demaged', 'OK');
+
+#13
+select s.name, c.country
+from ships s
+join classes c
+on c.class = s.class;
+
+#14
+select distinct name
+from company c
+join trip t
+on c.id_comp = t.id_comp;
+
+#15
+select name, pit.date
+from passenger p
+join pass_in_trip pit
+on p.id_psg = pit.id_psg

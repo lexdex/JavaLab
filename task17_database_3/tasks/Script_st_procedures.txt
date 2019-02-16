@@ -1,0 +1,76 @@
+Script for stored procedures in storedpr_db
+
+1 St_procedure for inserting values into employee table	 
+
+
+delimiter //
+create procedure addEmployee(in surname varchar(30), 
+				in name char(30), 
+				in midle_name varchar(30), 
+				in identity_number char(10),
+				in passport char(10),
+				in experience decimal(10,1),
+				in birthday date,
+				in post varchar(15),
+				in pharmacy_id int(11))
+begin
+	if post != all((select post from post)) or pharmacy_id != all((select id from pharmacy))
+	then
+	signal sqlstate '45000'
+	set message_text = 'Insertion Error! Foreign keys does not match!';
+	else
+	insert into employee(surname, name, midle_name, identity_number, passport, experience, birthday, post, pharmacy_id)
+		values(surname, name, midle_name, identity_number, passport, experience, birthday, post, pharmacy_id);
+	end if;
+end //
+delimiter ;
+drop procedure addEmployee;
+
+------------------------------------------------------------------------------+
+#2 St_procedure for implementation of connection for medicine and zone tables |
+------------------------------------------------------------------------------+
+
+delimiter //
+create procedure addZoneForMedicine(in medicine_id int, in zone_id int)
+begin
+	if medicine_id = any((select id from medicine)) and zone_id = any((select id from zone))
+	then
+	insert into medicine_zone
+		values(medicine_id, zone_id);
+	else
+	signal sqlstate '45000'
+	set message_text = "Insertion Error! Foreign keys does not match!";
+	end if;
+end //
+delimiter ;
+
+--------------------------------------------+
+#3 St_procedure for creating dynamic tables |
+--------------------------------------------+
+
+delimiter //
+create procedure createEmployeeNameTables()
+begin
+declare done int default false;
+	declare emplName varchar(50);
+	declare EmplCursor 	
+	cursor for select name from employee;
+	declare continue handler
+	for not found set done = true;
+	
+	open emplCursor;
+	get_empl: loop
+	fetch emplCursor into emplName;
+	if done = true
+	than leave get_empl;
+	end if;
+	set @table = concat('CREATE TABLE ', emplName, '( id int primary key auto_increment );');
+
+	prepare myquery from @table;
+	execute myquery;
+	deallocate prepare myquery;
+	end loop;
+
+	close EmplCursor; 
+end //
+delimiter ;

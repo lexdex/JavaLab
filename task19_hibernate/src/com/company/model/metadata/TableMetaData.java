@@ -1,0 +1,57 @@
+package com.company.model.metadata;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TableMetaData {
+
+  private String DBName;
+  private String tableName;
+  private List<ColumnMetaData> columnMetaData = new ArrayList<>();
+  private List<ForeignKeyMetaData> foreignKeyList = new ArrayList<>();
+
+  public String getDBName() {
+    return DBName;
+  }
+
+  public void setDBName(String DBName) {
+    this.DBName = DBName;
+  }
+
+  public String getTableName() {
+    return tableName;
+  }
+
+  public void setTableName(String tableName) {
+    this.tableName = tableName;
+  }
+
+  public List<ColumnMetaData> getColumnMetaData() {
+    return columnMetaData;
+  }
+
+  public void setColumnMetaData(List<ColumnMetaData> columnMetaData) {
+    this.columnMetaData = columnMetaData;
+  }
+
+  public List<ForeignKeyMetaData> getForeignKeyList() {
+    return foreignKeyList;
+  }
+
+  public void setForeignKeyList(List<ForeignKeyMetaData> foreignKeyList) {
+    this.foreignKeyList = foreignKeyList;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("TABLE: ").append(tableName).append("\n");
+    for (ColumnMetaData column : columnMetaData) {
+      stringBuilder.append(column).append("\n");
+    }
+    for (ForeignKeyMetaData fk : foreignKeyList) {
+      stringBuilder.append(fk).append("\n");
+    }
+    return stringBuilder.toString();
+  }
+}

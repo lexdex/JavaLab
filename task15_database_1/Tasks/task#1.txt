@@ -1,0 +1,161 @@
+
+
+#1
+select maker, type
+from product
+order by maker asc;
+
+#2
+select model, ram, screen, price
+from laptop
+where price > 1000
+order by ram asc, price desc;
+
+#3
+select *
+from printer
+where color = 'y'
+order by price desc;
+
+#4
+select model, speed, hd, cd, price
+from pc
+where cd in('12x', '14x') and speed < 600
+order by speed desc;
+
+#5
+select name, class
+from ships
+order by name;
+
+#6
+select *
+from pc
+where speed < 500
+order by price desc;
+
+#7
+select *
+from printer
+where type <> 'Matrix' and price < 300
+order by type desc;
+
+#8
+select model, speed
+from pc
+where price >= 400 and price < 600
+order by hd;
+
+#9
+select pc.model, pc.speed, pc.hd
+from pc 
+join product p where p.maker = 'A'  and pc.model = p.model and pc.hd in(10, 20)
+order by speed;
+
+#10
+select model, speed, hd, price
+from laptop
+where hd < 12
+order by price desc;
+
+#11
+select model, type, price
+from printer
+where price < 300
+order by type desc;
+
+#12
+select model, ram, price
+from laptop
+where ram = 64
+order by screen asc;
+
+#13
+select model, ram, price
+from pc 
+where ram > 64
+order by hd asc;
+
+#14
+select model, speed, price
+from pc
+where speed >= 500 and speed < 700
+order by hd desc;
+
+#15
+select *
+from outcome_o
+where outcome_o.out > 2000
+order by date;
+
+#16
+select *
+from income_o
+where inc >= 5000 and inc < 10000
+order by inc asc;
+
+#17
+select *
+from income
+where point = 1
+order by inc;
+
+#18
+select *
+from outcome
+where outcome.point = 2
+order by outcome.out;
+
+#19
+select *
+from classes 
+where country = 'Japan'
+order by type;
+
+#20
+select *
+from ships
+where launched > 1920 and launched < 1942
+order by launched;
+
+#21
+select ship, battle, result
+from outcomes
+where battle = 'Guadalcanal'
+order by ship;
+
+#22
+select ship, battle, result
+from outcomes
+where result = 'sunk'
+order by ship desc;
+
+#23
+select class, displacement
+from classes
+where  displacement >= 40000
+order by type asc;
+
+#24
+select trip_no, town_from, town_to
+from trip
+where town_from = 'London' or town_to = 'London'
+order by time_out;
+
+#25
+select trip_no, plane, town_from, town_to
+from trip 
+where plane = 'TU-134'
+order by time_out desc;
+
+#26
+select trip_no, plane, town_from, town_to
+from trip 
+where plane != 'IL-86'
+order by plane asc;
+
+#27
+select trip_no, town_from, town_to
+from trip
+where town_from != 'Rostov' and town_to != 'Rostov'
+order by plane asc;

@@ -1,0 +1,298 @@
+Script for creating triggers in storedpr_db tables 
+
+#1 Ensure the integrity of the values for the database structure 
+
+employee table 
+
+
+-- before insert
+delimiter //
+create trigger beforeInsertEmployee 
+	before insert on employee
+	for each row
+begin
+	if new.post != all((select post from post)) or new.pharmacy_id != all((select id from pharmacy))
+	then 
+	signal sqlstate '45000'
+	set message_text = 'Insertion Error! Foreign keys does not match!' ;
+	end if;
+end//
+delimiter ;
+
+-- before update
+delimiter //
+create trigger beforeUpdateEmployee
+	before update on employee
+	for each row
+begin
+ 	if new.pharmacy_id != all((select id from pharmacy)) or new.post != all((select post from post))
+ 	then
+ 	signal sqlstate '45000'
+ 	set message_text = 'Update Error!';
+ 	end if;
+end //
+delimiter ;
+
+-------------+
+# post table |
+-------------+
+
+-- before delete
+delimiter //
+create trigger beforeDeletePost
+	before delete on post
+	for each row
+begin
+	if old.post = any((select post from employee))
+	then 
+	signal sqlstate '45000'
+	set message_text = 'Delete Error!';	
+	end if;
+end //
+delimiter ;
+
+-----------------+
+# pharmacy table |
+-----------------+
+
+-- before insert
+delimiter //
+create trigger beforeInsertPharmacy
+	before insert on pharmacy
+	for each row
+begin
+	if new.street != all((select street from street))
+	then 
+	signal sqlstate '45000'
+	set message_text = 'Insertion Error! Foreign keys does not match!';
+	end if;
+end //
+delimiter ;
+
+-- before update
+delimiter //
+create trigger beforeUpdatePharmacy
+	before update on pharmacy
+	for each row
+begin
+	if new.street != any((select street from street))
+	then
+	signal sqlstate '45000'
+	set message_text = 'Update Error!';
+	end if;
+end //
+delimiter ;
+
+-- before delete
+delimiter //
+create trigger beforeDeletePharmacy
+	before delete on pharmacy
+	for each row
+begin
+	if old.id = any((select pharmacy_id from employee)) or old.id = any((select pharmacy_id from pharmacy_medicine))
+	then
+	signal sqlstate '45000'
+	set message_text = 'Delete Error!';
+	end if;
+end //
+delimiter ;
+
+---------------+
+# street table |
+---------------+
+
+-- before delete
+delimiter //
+create trigger beforeDeleteStreet
+	before delete on street
+	for each row
+begin
+	if old.street = any((select street from pharmacy))
+	then
+	signal sqlstate '45000'
+	set message_text = 'Delete Error!'; 
+	end if;
+end //
+delimiter ;
+
+--------------------------+
+# pharmacy_medicine table |
+--------------------------+ 
+
+-- before insert
+delimiter //
+create trigger beforeInsertPharmacyMedicine
+	before insert on pharmacy_medicine
+	for each row
+begin
+	if new.pharmacy_id != all((select id from pharmacy)) or new.medicine_id != all((select id from medicine))
+	then
+	signal sqlstate '45000'
+	set message_text = 'Insertion Error! Foreign keys does not match!';
+	end if;
+end //
+delimiter ;
+
+-----------------+
+# medicine table |
+-----------------+
+
+-- before delete
+delimiter //
+create trigger beforeDeleteMedicine
+	before delete on medicine
+	for each row
+begin
+	if old.id = any((select medicine_id from medicine_zone)) or old.id = any((select medicine_id from pharmacy_medicine))
+	then
+	signal sqlstate '45000'
+	set message_text = 'Delete Error!';
+	end if;
+end //
+delimiter ;
+
+--------------------------+
+# pharmacy_medicine table |
+--------------------------+
+
+-- before insert
+delimiter //
+create trigger beforeInsertPharmacyMedicine
+	before insert on pharmacy_medicine
+	for each row
+begin
+	if new.pharmacy_id = all((select id from pharmacy)) or new.medicine_id != all((select id from medicine))
+	then 
+	signal sqlstate '45000'
+	set message_text = 'Insertion Error! Foreign keys does not match!';
+	end if;
+end //
+delimiter ;
+
+-- before update
+delimiter //
+create trigger beforeUpdatePharmacyMedicine
+before update on pharmacy_medicine
+for each row
+begin
+	if new.pharmacy_id != any((select id from pharmacy)) or new.medicine_id != any((select id from medicine))
+	then
+	signal sqlstate '45000'
+	set message_text = 'Update Error!';
+	end if;
+end //
+delimiter ;
+
+-------------+
+# zone table |
+-------------+
+
+-- before delete
+delimiter //
+create trigger beforeDeleteZone
+	before delete on zone
+	for each row
+begin
+	if old.id = any((select zone_id from medicine_zone))
+	then
+	signal sqlstate '45000'
+	set message_text = 'Delete Error!';
+	end if;
+end //
+delimiter ;
+
+----------------------+
+# medicine_zone table |
+----------------------+
+
+-- before insert
+delimiter //
+create trigger beforeInsertMedicineZone
+	before insert on medicine_zone
+	for each row
+begin 
+	if new.medicine_id != all((select id from medicine)) or new.zone_id != all((select id from zone))
+	then 
+	signal sqlstate '45000'
+	set message_text = 'Insertion Error! Foreign keys does not match!';
+	end if;
+end //
+delimiter ;
+
+-- before update
+delimiter //
+create trigger beforeUpdateMedicineZone
+	before update on medicine_zone
+	for each row
+begin
+if new.medicine_id != any((select id from medicine)) or new.zone_id != any((select id from zone))
+	then
+	signal sqlstate '45000'
+	set message_text = 'Update Error!';
+	end if;
+end //
+delimiter ;
+
+-------------------------------------------------+
+#2 Identity_number must not end with two zeroes  |
+-------------------------------------------------+
+
+-- before insert
+delimiter //
+create trigger beforeInsertIdentityNumber
+	before insert on employee
+	for each row
+begin
+	if new.Identity_number like '%00'
+	then
+	signal sqlstate '45000'
+	set message_text = 'Insert Identity Number Error! Number must not end with two zeroes!';
+	end if;
+end //
+delimiter ;
+
+-- before udate
+delimiter //
+create trigger beforeInsertIdentityNumber
+	before udate on employee
+	for each row
+begin
+	if new.Identity_number like '%00'
+	then
+	signal sqlstate '45000'
+	set message_text = 'Update Identity Number Error! Number must not end with two zeroes!';
+	end if;
+end //
+delimiter ;
+
+----------------------------------------------------------------------------------+
+#3 The Trigger in Medicine table checks a ministry code witch has specific format |
+----------------------------------------------------------------------------------+
+
+-- before insert
+delimiter //
+create trigger beforeInsertMinistryCode
+	before insert on medicine
+	for each row
+begin
+	if new.ministry_code not rlike '^[ю-ъ&&[^ло]]{2}-\d{3}-\d{2}'
+    then
+    signal sqlstate '45000'
+    set message_text = 'Error! Incorrect ministry code!';
+    end if;
+end //
+delimiter ;
+
+--before update
+delimiter //
+create trigger beforeUpdateMinistryCode
+	before update on medicine
+	for each row
+begin
+	if new.ministry_code not rlike '^[ю-ъ&&[^ло]]{2}-\\d{3}-\\d{2}'
+    then
+    signal sqlstate '45000'
+    set message_text = 'Error! Incorrect ministry code!';
+    end if;
+end //
+delimiter ;

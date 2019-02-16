@@ -1,0 +1,16 @@
+
+#1
+select maker
+from product p
+where exists
+(select * from pc where p.model = pc.model and p.type in('PC') );
+
+#2
+
+#3
+
+#4
+
+#5
+
+#6

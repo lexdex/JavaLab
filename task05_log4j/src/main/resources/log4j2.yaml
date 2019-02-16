@@ -1,0 +1,77 @@
+Configuration:
+  Appenders:
+    Console:
+      name: Console
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: '%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n'
+    File:
+    # file will not be overwritten
+      name: File
+      fileName: logfile.log
+      PatternLayout:
+        pattern: '%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n'
+    RollingFile:
+    # file will be overwritten after reaching the size of 1 MB
+      name: rolFile1
+      fileName: rollingFile1.log
+      filePattern: archive/rolFile1.log.%d{yyyy-MM-dd-hh-mm}.gz
+      PatternLayout:
+        Pattern: '[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg %xEx{short}%n'
+      Policies:
+        SizeBasedTriggeringPolicy:
+          size: 1024 KB
+    RollingFile:
+    # file will be overwritten at 12:00 PM (noon) every day
+      name: rolFile4
+      fileName: rollingFile4.log
+      filePattern: archive/rolFile4_old.log
+      PatternLayout:
+        Pattern: '[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg%xEx{short}%n'
+      CronTriggeringPolicy:
+        schedule: '0 0 12 * * ?'
+        evaluateOnStartup: true
+      DefaultRolloverStrategy:
+        max: 1
+    RollingFile:
+    # every day log will be written archive file
+      name: rolFile3
+      fileName: rollingFile3.log
+      filePattern: archive/rolFile3-%d{yy-MM-dd}.log
+      PatternLayout:
+        Pattern: '[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg%xEx{short}%n'
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+    #will be sent on e-mail
+    SMTP:
+      name: Mail
+      subject: "Error Log"
+      to: "receiver@gmail.com"
+      from: "sender@gmail.com"
+      smtpHost: "smtp.gmail.com"
+      smtpPort: 465
+      smtpProtocol: smtps
+      smtpUsername: "3350serge@gmail.com"
+      smtpPassword: "qwerty"
+      bufferSize: 512
+      HTMLLayout:
+        charset: "UTF-8"
+        title: "Logs from project 5_Log4Jf"
+    SMS:
+      name: SMSsender
+      PatternLayout:
+        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss} - %msg %xEx{short}"
+  Loggers:
+    Root:
+      level: all
+      AppenderRef:
+      - ref: Console
+        level: info
+      - ref: File
+        level: warn
+      - ref: Mail
+        level: error
+      - ref: SMSsender
+        level: fatal

@@ -1,0 +1,1 @@
+Simple container implementation for CoffeMachine in Kotlin

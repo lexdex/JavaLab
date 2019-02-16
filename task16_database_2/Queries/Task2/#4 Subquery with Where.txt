@@ -1,0 +1,33 @@
+#1
+select maker
+from product
+where type in('PC');
+
+#2
+select maker
+from product
+where type = all 
+(select type from product where type in('PC'));
+
+#3
+select maker
+from product
+where type = any
+(select type from product where type in('PC'));
+
+#4
+select maker
+from product
+where type in('PC', 'Laptop');
+
+#5
+select maker
+from product
+where type = any
+(select type from product where type in('PC', 'Laptop'));
+
+#6
+select maker
+from product
+where type = any
+(select type from product where type in('PC', 'Laptop'));

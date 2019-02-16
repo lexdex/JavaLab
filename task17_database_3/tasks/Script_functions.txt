@@ -1,0 +1,30 @@
+Script to create functions in storedpr_db tables 
+
+
+Function to search min experience in employee table 
+
+
+delimiter //
+create function getMinExperienceFromEmployee() returns decimal(10,1)
+begin
+	declare min_ex decimal(10, 1);
+ 	select MIN(experience) from employee into min_ex;
+	return min_ex;
+end //
+delimiter ;
+
+----------------------------------------------+
+#2 Function that gets full adress of pharmacy |
+----------------------------------------------+
+
+delimiter //
+create function getFullPharmacyAdress(p_id int) returns varchar(500)
+begin
+	declare fullAdress varchar(50);
+	declare p_name varchar(50);
+	declare b_numb int;
+	select  name, building_number into p_name, b_numb from pharmacy where id = p_id;
+	set fullAdress = concat(p_name, ' ', b_numb);
+	return fullAdress;
+end //
+delimiter ;
